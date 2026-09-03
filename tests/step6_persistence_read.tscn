@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/step6_persistence_read.gd" id="1_test"]
+
+[node name="Step6PersistenceRead" type="Node"]
+script = ExtResource("1_test")

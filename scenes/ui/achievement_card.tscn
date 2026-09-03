@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/achievement_card.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/ui/uis/achiev_card.png" id="2_card_background"]
+
+[sub_resource type="Shader" id="Shader_icon_saturation"]
+code = "shader_type canvas_item;\n\nuniform float saturation : hint_range(0.0, 1.0) = 1.0;\n\nvoid fragment() {\n\tvec4 color = texture(TEXTURE, UV) * COLOR;\n\tfloat gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));\n\tcolor.rgb = mix(vec3(gray), color.rgb, saturation);\n\tCOLOR = color;\n}\n"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_icon_saturation"]
+resource_local_to_scene = true
+shader = SubResource("Shader_icon_saturation")
+shader_parameter/saturation = 1.0
+
+[node name="AchievementCard" type="PanelContainer"]
+custom_minimum_size = Vector2(238, 238)
+size_flags_horizontal = 4
+mouse_filter = 2
+script = ExtResource("1_card")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_card_background")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 22
+
+[node name="Content" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="IconRect" type="TextureRect" parent="Margin/Content"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_icon_saturation")
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ConditionLabel" type="Label" parent="Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14
+text = "图鉴介绍"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+text = "图鉴标题"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

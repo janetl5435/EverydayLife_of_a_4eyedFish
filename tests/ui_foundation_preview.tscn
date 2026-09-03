@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://tests/ui_foundation_preview.gd" id="1_preview"]
+[ext_resource type="PackedScene" path="res://scenes/ui/components/sea_backdrop.tscn" id="2_backdrop"]
+[ext_resource type="Theme" path="res://themes/game_ui_theme.tres" id="3_theme"]
+[ext_resource type="PackedScene" path="res://scenes/ui/achievement_card.tscn" id="4_item"]
+
+[node name="UiFoundationPreview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_preview")
+
+[node name="SeaBackdrop" parent="." instance=ExtResource("2_backdrop")]
+layout_mode = 1
+
+[node name="RightColumn" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 700.0
+offset_top = 78.0
+offset_right = 1236.0
+offset_bottom = 650.0
+theme_override_constants/separation = 18
+
+[node name="FocusButton" type="Button" parent="RightColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 78)
+layout_mode = 2
+text = "选中 / 悬停状态"
+
+[node name="NormalButton" type="Button" parent="RightColumn"]
+custom_minimum_size = Vector2(520, 78)
+layout_mode = 2
+text = "普通状态"
+
+[node name="AchievementItem" parent="RightColumn" instance=ExtResource("4_item")]
+unique_name_in_owner = true
+layout_mode = 2

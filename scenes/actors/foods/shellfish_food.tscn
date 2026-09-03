@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://dvqaxvlv6p4hh"]
+
+[ext_resource type="Script" uid="uid://8ungn40xvfsw" path="res://scripts/actors/foods/forage_food.gd" id="1_food"]
+[ext_resource type="Texture2D" uid="uid://c0hqsn2s63ytx" path="res://assets/sprites/prey/shell_2.png" id="2_an7dg"]
+[ext_resource type="Texture2D" uid="uid://cr3wkfhgvnocv" path="res://assets/sprites/prey/shell-1_0003.png" id="3_oh4xn"]
+[ext_resource type="Texture2D" uid="uid://cmlwluddd1yg8" path="res://assets/sprites/prey/shell-1_0004.png" id="4_h1epy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oh4xn"]
+size = Vector2(100, 78)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_food"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_an7dg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_oh4xn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_h1epy")
+}],
+"loop": false,
+"name": &"collected",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_an7dg")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_h1epy")
+}],
+"loop": false,
+"name": &"retire",
+"speed": 8.0
+}]
+
+[node name="ShellfishFood" type="Area2D" unique_id=1045863802]
+collision_layer = 4
+script = ExtResource("1_food")
+retain_after_collection = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1310905384]
+light_mask = 5
+position = Vector2(-27, -5)
+shape = SubResource("RectangleShape2D_oh4xn")
+
+[node name="AnimatedVisual" type="AnimatedSprite2D" parent="." unique_id=945099540]
+unique_name_in_owner = true
+position = Vector2(4, -21)
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_food")
+animation = &"idle"
+
+[node name="NameLabel" type="Label" parent="." unique_id=1956729799]
+unique_name_in_owner = true
+offset_left = -70.0
+offset_top = -63.0
+offset_right = 70.0
+offset_bottom = -37.0
+text = "贝类 +7"
+horizontal_alignment = 1

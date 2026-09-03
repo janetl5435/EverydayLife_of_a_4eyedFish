@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://cwa0800bwlaqx"]
+
+[ext_resource type="Script" uid="uid://8ungn40xvfsw" path="res://scripts/actors/foods/forage_food.gd" id="1_food"]
+[ext_resource type="Texture2D" uid="uid://drkrlabpivlc2" path="res://assets/sprites/prey/flies_0000.png" id="2_n7f76"]
+[ext_resource type="Texture2D" uid="uid://bq0ssl5r66jmc" path="res://assets/sprites/prey/flies_0001.png" id="3_itlaj"]
+[ext_resource type="Texture2D" uid="uid://vdpwxinxj455" path="res://assets/sprites/prey/flies_0002.png" id="4_m015e"]
+[ext_resource type="Texture2D" uid="uid://8ohw5533vt3h" path="res://assets/sprites/prey/flies_0003.png" id="5_81dt5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n7f76"]
+radius = 11.0
+height = 46.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_food"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"collected",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_n7f76")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_itlaj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_m015e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_81dt5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_itlaj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_m015e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_81dt5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 15.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"retire",
+"speed": 8.0
+}]
+
+[node name="InsectFood" type="Area2D" unique_id=423153913]
+collision_layer = 4
+script = ExtResource("1_food")
+retain_after_collection = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1623678729]
+position = Vector2(-3, -2)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_n7f76")
+
+[node name="AnimatedVisual" type="AnimatedSprite2D" parent="." unique_id=261716364]
+unique_name_in_owner = true
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_food")
+animation = &"idle"
+frame = 1
+frame_progress = 0.8546043
+
+[node name="PlaceholderVisual" type="Node2D" parent="." unique_id=975121482]
+unique_name_in_owner = true
+visible = false
+
+[node name="Body" type="Polygon2D" parent="PlaceholderVisual" unique_id=356427028]
+color = Color(0.98, 0.72, 0.16, 1)
+polygon = PackedVector2Array(-13, -7, 10, -7, 17, 0, 10, 7, -13, 7, -18, 0)
+
+[node name="LeftWing" type="Polygon2D" parent="PlaceholderVisual" unique_id=2097305536]
+color = Color(0.78, 0.94, 1, 0.82)
+polygon = PackedVector2Array(-5, -4, -22, -24, 0, -16, 5, -5)
+
+[node name="RightWing" type="Polygon2D" parent="PlaceholderVisual" unique_id=1586035914]
+color = Color(0.78, 0.94, 1, 0.82)
+polygon = PackedVector2Array(-5, 4, -22, 24, 0, 16, 5, 5)
+
+[node name="NameLabel" type="Label" parent="." unique_id=1772997436]
+unique_name_in_owner = true
+offset_left = -58.0
+offset_top = -54.0
+offset_right = 58.0
+offset_bottom = -28.0
+text = "昆虫 +10"
+horizontal_alignment = 1

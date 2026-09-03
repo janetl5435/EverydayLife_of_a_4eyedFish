@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://bagc2l0xwjv4f"]
+
+[ext_resource type="Script" uid="uid://c75e0gioqji1t" path="res://scripts/ui/death_restart.gd" id="1_death"]
+[ext_resource type="PackedScene" path="res://scenes/ui/components/sea_backdrop.tscn" id="2_backdrop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/components/full_screen_sequence.tscn" id="3_sequence"]
+[ext_resource type="Theme" uid="uid://8likwnth6oeh" path="res://themes/game_ui_theme.tres" id="4_theme"]
+[ext_resource type="Texture2D" uid="uid://cxics1er3c4j8" path="res://assets/ui/full_screen_anim/dead_mode_new/die_0000.png" id="5_frame_1"]
+[ext_resource type="Texture2D" uid="uid://cv6rgmw3x43di" path="res://assets/ui/full_screen_anim/dead_mode_new/die_0001.png" id="6_frame_2"]
+[ext_resource type="Texture2D" uid="uid://bynlr88r77jyc" path="res://assets/ui/full_screen_anim/dead_mode_new/die_0002.png" id="7_frame_3"]
+
+[node name="DeathRestart" type="Control" unique_id=1738746919]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_theme")
+script = ExtResource("1_death")
+
+[node name="SeaBackdrop" parent="." unique_id=1573445347 instance=ExtResource("2_backdrop")]
+layout_mode = 1
+fish_pose = 1
+animate_swimming_fish = false
+
+[node name="Center" type="CenterContainer" parent="." unique_id=517578936]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.57
+anchor_top = 0.2
+anchor_right = 0.95
+anchor_bottom = 0.8
+offset_left = 55.400024
+offset_right = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=159548404]
+custom_minimum_size = Vector2(486, 150)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel" unique_id=954306958]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Content" type="VBoxContainer" parent="Center/Panel/Margin" unique_id=563731782]
+layout_mode = 2
+theme_override_constants/separation = -19
+alignment = 1
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/Content" unique_id=1766231603]
+visible = false
+layout_mode = 2
+text = "本次旅程结束"
+
+[node name="ModeLabel" type="Label" parent="Center/Panel/Margin/Content" unique_id=1202847992]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "模式失败"
+
+[node name="ReasonLabel" type="Label" parent="Center/Panel/Margin/Content" unique_id=838877261]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "本次旅程未能继续"
+
+[node name="DistanceLabel" type="Label" parent="Center/Panel/Margin/Content" unique_id=513141106]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "前进距离：0 px"
+
+[node name="StreakLabel" type="Label" parent="Center/Panel/Margin/Content" unique_id=1251701838]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "失败已结算；首次失败会解锁“鱼已逝”。"
+
+[node name="RetryButton" type="Button" parent="Center/Panel/Margin/Content" unique_id=305920990]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(358, 150)
+layout_mode = 2
+text = "重新开始"
+
+[node name="MenuButton" type="Button" parent="Center/Panel/Margin/Content" unique_id=1849371102]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(358, 150)
+layout_mode = 2
+text = "返回主菜单"
+
+[node name="FailureSequence" parent="." unique_id=567951894 instance=ExtResource("3_sequence")]
+unique_name_in_owner = true
+layout_mode = 1
+frames = Array[Texture2D]([ExtResource("5_frame_1"), ExtResource("6_frame_2"), ExtResource("7_frame_3")])
+frame_duration = 0.45
+hide_when_finished = true

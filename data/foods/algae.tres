@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FoodDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/food_definition.gd" id="1_definition"]
+[ext_resource type="PackedScene" path="res://scenes/actors/foods/algae_food.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_definition")
+food_id = &"algae"
+display_name = "藻类"
+energy_value = 3
+spawn_region = 8
+collection_method = 1
+scene = ExtResource("2_scene")
+interaction_distance = 150.0
+

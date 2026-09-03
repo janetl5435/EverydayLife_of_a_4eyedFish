@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EncounterPattern" format=3 uid="uid://bibxjpqnfqied"]
+
+[ext_resource type="Script" uid="uid://s5tetgg4mb38" path="res://scripts/data/encounter_pattern.gd" id="1_pattern"]
+[ext_resource type="Script" uid="uid://d2t48rjfkerlo" path="res://scripts/data/threat_entry.gd" id="2_threat"]
+
+[sub_resource type="Resource" id="ThreatEntry_bird"]
+script = ExtResource("2_threat")
+speed = 190.0
+
+[resource]
+script = ExtResource("1_pattern")
+pattern_id = &"single_bird"
+threat_entries = Array[ExtResource("2_threat")]([SubResource("ThreatEntry_bird")])
+minimum_safe_route = PackedInt32Array(5, 6)

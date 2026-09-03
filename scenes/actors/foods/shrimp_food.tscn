@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://xdb3h3oerut5"]
+
+[ext_resource type="Script" uid="uid://8ungn40xvfsw" path="res://scripts/actors/foods/forage_food.gd" id="1_food"]
+[ext_resource type="Texture2D" uid="uid://bbekrefs332mh" path="res://assets/sprites/prey_shrimp.png" id="2_l2wl1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape_shrimp"]
+size = Vector2(159, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0sas"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(0, 0, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_436m7"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(257, 0, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jc1h3"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(0, 257, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2vxa"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(257, 257, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7fh5"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(0, 257, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5ptx"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(257, 0, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2wl1"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(0, 0, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15mup"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(257, 0, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ki0y"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(0, 257, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pleje"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(257, 257, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3ddh"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(0, 257, 257, 257)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1rhi"]
+atlas = ExtResource("2_l2wl1")
+region = Rect2(257, 0, 257, 257)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_food"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"collected",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0sas")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_436m7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jc1h3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2vxa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m7fh5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5ptx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l2wl1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_15mup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ki0y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pleje")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x3ddh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1rhi")
+}],
+"loop": false,
+"name": &"retire",
+"speed": 8.0
+}]
+
+[node name="ShrimpFood" type="Area2D" unique_id=422652376]
+collision_layer = 4
+script = ExtResource("1_food")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1131766185]
+position = Vector2(-40, 2)
+shape = SubResource("RectangleShape_shrimp")
+
+[node name="AnimatedVisual" type="AnimatedSprite2D" parent="." unique_id=158711673]
+unique_name_in_owner = true
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_food")
+animation = &"retire"
+
+[node name="NameLabel" type="Label" parent="." unique_id=1346841591]
+unique_name_in_owner = true
+offset_left = -70.0
+offset_top = -55.0
+offset_right = 70.0
+offset_bottom = -29.0
+text = "虾 +8"
+horizontal_alignment = 1

@@ -1,0 +1,513 @@
+[gd_scene format=3 uid="uid://d3xpbp5gij5sv"]
+
+[ext_resource type="Script" uid="uid://crk67s7re32fb" path="res://scripts/gameplay/gameplay_root.gd" id="1_gameplay"]
+[ext_resource type="Texture2D" uid="uid://eli586byy1en" path="res://assets/map/map.png" id="2_map"]
+[ext_resource type="Script" uid="uid://cmpgr08vsl3bv" path="res://scripts/systems/looping_sea_background.gd" id="3_background"]
+[ext_resource type="PackedScene" uid="uid://hu6tr7wm84wt" path="res://scenes/actors/player_fish.tscn" id="4_player"]
+[ext_resource type="Script" uid="uid://bet8sdhs7mvp3" path="res://scripts/systems/camera_rig.gd" id="5_camera"]
+[ext_resource type="Script" uid="uid://ccmus3gf8wskk" path="res://scripts/systems/region_controller.gd" id="6_region"]
+[ext_resource type="Script" uid="uid://bl64ww073i4hd" path="res://scripts/systems/region_guide.gd" id="7_guide"]
+[ext_resource type="Resource" uid="uid://bn5epkp672nfq" path="res://data/region_layout.tres" id="8_layout"]
+[ext_resource type="Resource" uid="uid://c4ncbaq8eufji" path="res://data/world_config.tres" id="9_config"]
+[ext_resource type="Script" uid="uid://dkc8isjinqng0" path="res://scripts/systems/wet_eye_controller.gd" id="10_wet_eye"]
+[ext_resource type="Script" uid="uid://bxi8sb01g5k7c" path="res://scripts/systems/threat_pool.gd" id="11_threat_pool"]
+[ext_resource type="Script" uid="uid://dj8qdym7xmhd1" path="res://scripts/systems/encounter_director.gd" id="12_encounter"]
+[ext_resource type="Script" uid="uid://c2e1qb6s33myb" path="res://scripts/modes/forage_mode_controller.gd" id="13_forage_mode"]
+[ext_resource type="Script" uid="uid://dj5hl5ngjnle7" path="res://scripts/systems/opportunity_director.gd" id="14_opportunity"]
+[ext_resource type="Script" uid="uid://6cdrrf0u20ii" path="res://scripts/data/food_definition.gd" id="15_food_definition"]
+[ext_resource type="Resource" path="res://data/foods/insect.tres" id="16_insect"]
+[ext_resource type="Resource" path="res://data/foods/algae.tres" id="17_algae"]
+[ext_resource type="Resource" path="res://data/foods/shellfish.tres" id="18_shellfish"]
+[ext_resource type="Resource" path="res://data/foods/shrimp.tres" id="19_shrimp"]
+[ext_resource type="Script" uid="uid://dw74d1hkh676q" path="res://scripts/systems/run_progress_controller.gd" id="20_run_progress"]
+[ext_resource type="Script" uid="uid://8jnib1jrqauo" path="res://scripts/ui/pause_menu.gd" id="21_pause_menu"]
+[ext_resource type="Theme" uid="uid://8likwnth6oeh" path="res://themes/game_ui_theme.tres" id="22_theme"]
+[ext_resource type="Texture2D" uid="uid://fnbntotcpj1v" path="res://assets/ui/uis/exp_button.png" id="23_energy_card"]
+[ext_resource type="Texture2D" uid="uid://bgwqx1pd6qcfc" path="res://assets/ui/uis/eye_warning.png" id="24_eye_warning"]
+[ext_resource type="Script" uid="uid://duhwqrso02tu2" path="res://scripts/systems/ecology_event_director.gd" id="25_ecology"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud_pill"]
+content_margin_left = 16.0
+content_margin_top = 9.0
+content_margin_right = 16.0
+content_margin_bottom = 9.0
+bg_color = Color(0.94, 0.98, 0.94, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.08, 0.23, 0.24, 0.82)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_meter_background"]
+bg_color = Color(0.08, 0.23, 0.24, 0.32)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_meter_fill"]
+bg_color = Color(0.16, 0.72, 0.76, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_warning"]
+content_margin_left = 18.0
+content_margin_top = 10.0
+content_margin_right = 18.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 0.94, 0.82, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.86, 0.28, 0.12, 0.95)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[node name="GameplayRoot" type="Node2D" unique_id=552774708]
+script = ExtResource("1_gameplay")
+region_layout = ExtResource("8_layout")
+world_config = ExtResource("9_config")
+
+[node name="World" type="Node2D" parent="." unique_id=1807939668]
+
+[node name="LoopingSeaBackground" type="Node2D" parent="World" unique_id=134127239]
+unique_name_in_owner = true
+z_index = -100
+script = ExtResource("3_background")
+
+[node name="MapA" type="Sprite2D" parent="World/LoopingSeaBackground" unique_id=985095315]
+unique_name_in_owner = true
+texture_filter = 1
+texture = ExtResource("2_map")
+centered = false
+
+[node name="MapB" type="Sprite2D" parent="World/LoopingSeaBackground" unique_id=268736871]
+unique_name_in_owner = true
+texture_filter = 1
+texture = ExtResource("2_map")
+centered = false
+
+[node name="RegionGuide" type="Node2D" parent="World" unique_id=1130574599]
+unique_name_in_owner = true
+visible = false
+z_index = -10
+script = ExtResource("7_guide")
+
+[node name="ActorRoot" type="Node2D" parent="World" unique_id=1462714879]
+
+[node name="PlayerFish" parent="World/ActorRoot" unique_id=2082348818 instance=ExtResource("4_player")]
+unique_name_in_owner = true
+z_index = 10
+
+[node name="Animals" type="Node2D" parent="World/ActorRoot" unique_id=1816863277]
+
+[node name="ActiveThreats" type="Node2D" parent="World/ActorRoot/Animals" unique_id=1177893555]
+unique_name_in_owner = true
+
+[node name="ThreatPool" type="Node" parent="World/ActorRoot/Animals" unique_id=1923348855]
+unique_name_in_owner = true
+script = ExtResource("11_threat_pool")
+
+[node name="Foods" type="Node2D" parent="World/ActorRoot/Animals" unique_id=811587183]
+unique_name_in_owner = true
+
+[node name="AirFoods" type="Node2D" parent="World/ActorRoot/Animals/Foods" unique_id=1272957246]
+unique_name_in_owner = true
+
+[node name="UnderwaterFoods" type="Node2D" parent="World/ActorRoot/Animals/Foods" unique_id=1887379174]
+unique_name_in_owner = true
+
+[node name="CameraRig" type="Node2D" parent="World" unique_id=1375694833]
+unique_name_in_owner = true
+script = ExtResource("5_camera")
+
+[node name="Camera2D" type="Camera2D" parent="World/CameraRig" unique_id=821060841]
+unique_name_in_owner = true
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="Systems" type="Node" parent="." unique_id=615058188]
+
+[node name="RegionController" type="Node" parent="Systems" unique_id=1628975823]
+unique_name_in_owner = true
+script = ExtResource("6_region")
+
+[node name="WetEyeController" type="Node" parent="Systems" unique_id=1181661079]
+unique_name_in_owner = true
+script = ExtResource("10_wet_eye")
+
+[node name="RunProgressController" type="Node" parent="Systems" unique_id=1315092645]
+unique_name_in_owner = true
+script = ExtResource("20_run_progress")
+
+[node name="ModeHost" type="Node" parent="." unique_id=1905420081]
+unique_name_in_owner = true
+
+[node name="EncounterDirector" type="Node" parent="ModeHost" unique_id=1524985118]
+unique_name_in_owner = true
+script = ExtResource("12_encounter")
+simple_followup_distance = 230.0
+maximum_visible_threats = 3
+
+[node name="EcologyEventDirector" type="Node" parent="ModeHost" unique_id=677067088]
+unique_name_in_owner = true
+script = ExtResource("25_ecology")
+event_1_length = 1800.0
+event_2_length = 2000.0
+event_3_length = 2100.0
+safe_finish_buffer = 0.0
+
+[node name="ForageModeController" type="Node" parent="ModeHost" unique_id=2088681955]
+unique_name_in_owner = true
+script = ExtResource("13_forage_mode")
+
+[node name="OpportunityDirector" type="Node" parent="ModeHost/ForageModeController" unique_id=855401564]
+unique_name_in_owner = true
+script = ExtResource("14_opportunity")
+air_food_definition = ExtResource("16_insect")
+underwater_food_definitions = Array[ExtResource("15_food_definition")]([ExtResource("17_algae"), ExtResource("18_shellfish"), ExtResource("19_shrimp")])
+
+[node name="Interface" type="CanvasLayer" parent="." unique_id=1668690216]
+
+[node name="HUD" type="Control" parent="Interface" unique_id=1637033251]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("22_theme")
+
+[node name="EnergyPanel" type="PanelContainer" parent="Interface/HUD" unique_id=1178145838]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 24.0
+offset_top = 22.0
+offset_right = 264.0
+offset_bottom = 142.0
+mouse_filter = 2
+
+[node name="EnergyTexture" type="TextureRect" parent="Interface/HUD/EnergyPanel" unique_id=327439759]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("23_energy_card")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Margin" type="MarginContainer" parent="Interface/HUD/EnergyPanel" unique_id=1483434851]
+layout_mode = 2
+theme_override_constants/margin_left = 82
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 42
+
+[node name="Content" type="VBoxContainer" parent="Interface/HUD/EnergyPanel/Margin" unique_id=1255746882]
+layout_mode = 2
+alignment = 1
+
+[node name="ModeLabel" type="Label" parent="Interface/HUD/EnergyPanel/Margin/Content" unique_id=1780089836]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "旅程"
+
+[node name="ViewLabel" type="Label" parent="Interface/HUD/EnergyPanel/Margin/Content" unique_id=2062396303]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "相机可见：全局区域1–6（旅程水面）　可游范围：5–6"
+
+[node name="RegionLabel" type="Label" parent="Interface/HUD/EnergyPanel/Margin/Content" unique_id=871245210]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "当前水下泳道：全局区域5　普通游动范围：5–6"
+
+[node name="DistanceLabel" type="Label" parent="Interface/HUD/EnergyPanel/Margin/Content" unique_id=1673873709]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "前进距离：0 px"
+
+[node name="EnergyLabel" type="Label" parent="Interface/HUD/EnergyPanel/Margin/Content" unique_id=202996743]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WetEyePanel" type="PanelContainer" parent="Interface/HUD" unique_id=1971365997]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 890.0
+offset_top = 588.0
+offset_right = 1256.0
+offset_bottom = 700.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud_pill")
+
+[node name="Margin" type="MarginContainer" parent="Interface/HUD/WetEyePanel" unique_id=1363471741]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="Content" type="VBoxContainer" parent="Interface/HUD/WetEyePanel/Margin" unique_id=1927190440]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Header" type="HBoxContainer" parent="Interface/HUD/WetEyePanel/Margin/Content" unique_id=2076132130]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Interface/HUD/WetEyePanel/Margin/Content/Header" unique_id=433955169]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "润眼"
+
+[node name="WetEyeStatusLabel" type="Label" parent="Interface/HUD/WetEyePanel/Margin/Content/Header" unique_id=330765914]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "计时中"
+horizontal_alignment = 2
+
+[node name="WetEyeProgress" type="ProgressBar" parent="Interface/HUD/WetEyePanel/Margin/Content" unique_id=449163647]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_meter_background")
+theme_override_styles/fill = SubResource("StyleBoxFlat_meter_fill")
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[node name="WetEyeTimeLabel" type="Label" parent="Interface/HUD/WetEyePanel/Margin/Content" unique_id=1334063116]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10.0 s"
+horizontal_alignment = 2
+
+[node name="WetEyeWarningOverlay" type="CenterContainer" parent="Interface/HUD/WetEyePanel" unique_id=35747765]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="WetEyeWarningIcon" type="TextureRect" parent="Interface/HUD/WetEyePanel/WetEyeWarningOverlay" unique_id=1594710832]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 75)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("24_eye_warning")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EncounterWarningPanel" type="PanelContainer" parent="Interface/HUD" unique_id=706650003]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 300.0
+offset_top = 20.0
+offset_right = 980.0
+offset_bottom = 145.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_warning")
+
+[node name="Margin" type="MarginContainer" parent="Interface/HUD/EncounterWarningPanel" unique_id=376725472]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="Content" type="VBoxContainer" parent="Interface/HUD/EncounterWarningPanel/Margin" unique_id=1645827108]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="EncounterWarningTitle" type="Label" parent="Interface/HUD/EncounterWarningPanel/Margin/Content" unique_id=2145280487]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.25, 0.15, 1)
+theme_override_font_sizes/font_size = 22
+text = "捕食者警觉：上下危险同时出现"
+horizontal_alignment = 1
+
+[node name="EncounterWarningTime" type="Label" parent="Interface/HUD/EncounterWarningPanel/Margin/Content" unique_id=1780685744]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "警觉剩余 2.0 s"
+horizontal_alignment = 1
+
+[node name="EncounterWarningDetail" type="Label" parent="Interface/HUD/EncounterWarningPanel/Margin/Content" unique_id=1343492584]
+unique_name_in_owner = true
+layout_mode = 2
+text = "W/↑、S/↓切换全局区域5–7；连续1秒处于同一捕食者视野内将触发攻击。"
+horizontal_alignment = 1
+
+[node name="DebugButtons" type="HBoxContainer" parent="Interface/HUD" unique_id=97090778]
+visible = false
+layout_mode = 0
+offset_left = 925.0
+offset_top = 20.0
+offset_right = 1260.0
+offset_bottom = 64.0
+theme_override_constants/separation = 8
+
+[node name="CompleteTestButton" type="Button" parent="Interface/HUD/DebugButtons" unique_id=1203567528]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(104, 44)
+layout_mode = 2
+focus_mode = 0
+text = "模拟终点"
+
+[node name="FailTestButton" type="Button" parent="Interface/HUD/DebugButtons" unique_id=297796091]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(104, 44)
+layout_mode = 2
+focus_mode = 0
+text = "模拟失败"
+
+[node name="MenuButton" type="Button" parent="Interface/HUD/DebugButtons" unique_id=68059169]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(104, 44)
+layout_mode = 2
+focus_mode = 0
+text = "返回主菜单"
+
+[node name="HintPanel" type="PanelContainer" parent="Interface/HUD" unique_id=482394510]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 210.0
+offset_top = -72.0
+offset_right = -430.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud_pill")
+
+[node name="ActionHintLabel" type="Label" parent="Interface/HUD/HintPanel" unique_id=859841381]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "W/↑、S/↓切换区域"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InteractionPromptPanel" type="PanelContainer" parent="Interface/HUD" unique_id=1982534333]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 390.0
+offset_top = -122.0
+offset_right = -390.0
+offset_bottom = -82.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud_pill")
+
+[node name="InteractionPromptLabel" type="Label" parent="Interface/HUD/InteractionPromptPanel" unique_id=1672667482]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.42, 0.12, 1)
+theme_override_font_sizes/font_size = 18
+text = "按F进食"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseMenu" type="Control" parent="Interface" unique_id=119281459]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_pause_menu")
+
+[node name="Shade" type="ColorRect" parent="Interface/PauseMenu" unique_id=339365644]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015, 0.04, 0.055, 0.82)
+
+[node name="Center" type="CenterContainer" parent="Interface/PauseMenu" unique_id=989131839]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Interface/PauseMenu/Center" unique_id=1747858021]
+custom_minimum_size = Vector2(460, 310)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Interface/PauseMenu/Center/Panel" unique_id=755129887]
+layout_mode = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 44
+theme_override_constants/margin_bottom = 34
+
+[node name="Content" type="VBoxContainer" parent="Interface/PauseMenu/Center/Panel/Margin" unique_id=450136865]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Title" type="Label" parent="Interface/PauseMenu/Center/Panel/Margin/Content" unique_id=1996884237]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "游戏暂停"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Interface/PauseMenu/Center/Panel/Margin/Content" unique_id=746767381]
+layout_mode = 2
+text = "放弃本局不会触发自然通关的终点能量图鉴。"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ResumeButton" type="Button" parent="Interface/PauseMenu/Center/Panel/Margin/Content" unique_id=486631125]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "继续游戏"
+
+[node name="AbandonButton" type="Button" parent="Interface/PauseMenu/Center/Panel/Margin/Content" unique_id=775024537]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "放弃本局并返回菜单"
+
+[node name="HudUpdateTimer" type="Timer" parent="." unique_id=1046661623]
+unique_name_in_owner = true
+wait_time = 0.1
+autostart = true

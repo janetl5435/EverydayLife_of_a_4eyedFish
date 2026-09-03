@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="RegionLayout" format=3 uid="uid://bn5epkp672nfq"]
+
+[ext_resource type="Script" uid="uid://borqs1y3150vh" path="res://scripts/data/region_layout.gd" id="1_layout"]
+
+[resource]
+script = ExtResource("1_layout")
+region_boundaries = PackedFloat32Array(0, 108.9, 217.8, 326.7, 435.6, 563.7, 691.8, 819.9, 948, 1066.5)

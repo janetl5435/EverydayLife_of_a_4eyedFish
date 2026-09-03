@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AchievementDefinition" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/achievement_definition.gd" id="1_definition"]
+[ext_resource type="Texture2D" path="res://assets/achievements/鱼已逝.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_definition")
+achievement_id = &"fish_gone"
+display_name = "鱼已逝"
+condition_text = "达到失败状态一次"
+icon = ExtResource("2_icon")

@@ -1,0 +1,14 @@
+# Godot 4 cache
+.godot/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# Codex / temporary runtime files
+.codex_test_runtime/

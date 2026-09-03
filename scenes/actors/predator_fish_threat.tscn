@@ -1,0 +1,231 @@
+[gd_scene format=3 uid="uid://b568cq3ty6j6v"]
+
+[ext_resource type="Script" uid="uid://bhn1xgvqqpdit" path="res://scripts/actors/patrol_threat.gd" id="1_threat"]
+[ext_resource type="Texture2D" uid="uid://cst7eqyxqlbhk" path="res://assets/sprites/pred_fish_spritesheet.png" id="2_xf3y7"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xf3y7"]
+radius = 41.0
+height = 106.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xf3y7"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(1053, 351, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4i7on"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(702, 351, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tao7t"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(351, 351, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_733lq"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(702, 351, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7b2c"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(702, 0, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cog4m"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(351, 0, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7df2j"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(0, 0, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjr6h"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(351, 0, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jv6ln"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(0, 351, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15e45"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(1053, 702, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ci5j6"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(702, 702, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xy4vp"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(351, 702, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5svaj"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(1053, 0, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1dh1"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(702, 0, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llq8u"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(351, 0, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ryrfs"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(0, 0, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ducgg"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(351, 0, 351, 351)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1cts"]
+atlas = ExtResource("2_xf3y7")
+region = Rect2(702, 0, 351, 351)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_predator"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xf3y7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4i7on")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tao7t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_733lq")
+}],
+"loop": true,
+"name": &"alert",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o7b2c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cog4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7df2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjr6h")
+}],
+"loop": true,
+"name": &"chase",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jv6ln")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_15e45")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ci5j6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xy4vp")
+}],
+"loop": false,
+"name": &"eat",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5svaj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v1dh1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_llq8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ryrfs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ducgg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1cts")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}]
+
+[node name="PredatorFishThreat" type="Area2D" unique_id=147101308]
+z_index = 18
+collision_layer = 2
+monitoring = false
+monitorable = false
+script = ExtResource("1_threat")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2054588763]
+position = Vector2(66, -7)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_xf3y7")
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=133283604]
+unique_name_in_owner = true
+
+[node name="VisionOrigin" type="Marker2D" parent="VisualRoot" unique_id=755907244]
+unique_name_in_owner = true
+position = Vector2(55, -18)
+
+[node name="AnimatedVisual" type="AnimatedSprite2D" parent="VisualRoot" unique_id=589230402]
+unique_name_in_owner = true
+texture_filter = 1
+scale = Vector2(0.9, 0.9)
+sprite_frames = SubResource("SpriteFrames_predator")
+animation = &"alert"
+
+[node name="PlaceholderVisual" type="Node2D" parent="VisualRoot" unique_id=1080261113]
+unique_name_in_owner = true
+visible = false
+
+[node name="Tail" type="Polygon2D" parent="VisualRoot/PlaceholderVisual" unique_id=948000166]
+color = Color(0.57, 0.13, 0.18, 1)
+polygon = PackedVector2Array(-52, 0, -94, -42, -82, 0, -94, 42)
+
+[node name="Body" type="Polygon2D" parent="VisualRoot/PlaceholderVisual" unique_id=1307404720]
+color = Color(0.76, 0.2, 0.2, 1)
+polygon = PackedVector2Array(-58, -29, -22, -42, 28, -36, 65, -17, 80, 0, 65, 17, 28, 36, -22, 42, -58, 29)
+
+[node name="Teeth" type="Polygon2D" parent="VisualRoot/PlaceholderVisual" unique_id=1283648233]
+color = Color(1, 0.96, 0.84, 1)
+polygon = PackedVector2Array(58, -7, 78, 0, 58, 8, 64, 0)
+
+[node name="Eye" type="Polygon2D" parent="VisualRoot/PlaceholderVisual" unique_id=510222600]
+position = Vector2(40, -15)
+color = Color(1, 0.9, 0.2, 1)
+polygon = PackedVector2Array(-6, 0, -4, -5, 2, -5, 6, 0, 2, 5, -4, 5)
+
+[node name="Pupil" type="Polygon2D" parent="VisualRoot/PlaceholderVisual" unique_id=609234613]
+position = Vector2(43, -15)
+color = Color(0.05, 0.04, 0.04, 1)
+polygon = PackedVector2Array(-2, -3, 2, -3, 2, 3, -2, 3)
+
+[node name="TypeLabel" type="Label" parent="." unique_id=87294342]
+offset_left = -42.0
+offset_top = 40.0
+offset_right = 42.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.1, 0.04, 0.04, 1)
+theme_override_font_sizes/font_size = 16
+text = "捕食鱼"
+horizontal_alignment = 1
+
+[node name="WarningMarker" type="Label" parent="." unique_id=22812821]
+unique_name_in_owner = true
+visible = false
+offset_left = -22.0
+offset_top = -84.0
+offset_right = 22.0
+offset_bottom = -36.0
+theme_override_colors/font_color = Color(1, 0.2, 0.12, 1)
+theme_override_font_sizes/font_size = 40
+text = "!"
+horizontal_alignment = 1

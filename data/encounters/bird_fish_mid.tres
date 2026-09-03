@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EncounterPattern" format=3 uid="uid://c3lhwa4dje8c0"]
+
+[ext_resource type="Script" uid="uid://s5tetgg4mb38" path="res://scripts/data/encounter_pattern.gd" id="1_pattern"]
+[ext_resource type="Script" uid="uid://d2t48rjfkerlo" path="res://scripts/data/threat_entry.gd" id="2_threat"]
+
+[sub_resource type="Resource" id="ThreatEntry_bird"]
+script = ExtResource("2_threat")
+speed = 180.0
+
+[sub_resource type="Resource" id="ThreatEntry_fish"]
+script = ExtResource("2_threat")
+animal_type = 1
+world_region = 6
+speed = 300.0
+
+[resource]
+script = ExtResource("1_pattern")
+pattern_id = &"bird_fish_mid"
+threat_entries = Array[ExtResource("2_threat")]([SubResource("ThreatEntry_bird"), SubResource("ThreatEntry_fish")])
+minimum_safe_route = PackedInt32Array(5, 6, 7)

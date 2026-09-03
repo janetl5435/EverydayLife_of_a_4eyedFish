@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WorldConfig" format=3 uid="uid://c4ncbaq8eufji"]
+
+[ext_resource type="Script" uid="uid://4qsvxok45hyj" path="res://scripts/data/world_config.gd" id="1_config"]
+
+[resource]
+script = ExtResource("1_config")
+initial_energy = 20.0
+run_finish_distance = 15000.0

@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://ctk52n6njlrpp"]
+
+[ext_resource type="Script" uid="uid://d2d4hv86u2tkk" path="res://scripts/ui/settings_screen.gd" id="1_settings"]
+[ext_resource type="PackedScene" path="res://scenes/ui/components/sea_backdrop.tscn" id="2_backdrop"]
+[ext_resource type="Theme" uid="uid://8likwnth6oeh" path="res://themes/game_ui_theme.tres" id="3_theme"]
+
+[node name="SettingsScreen" type="Control" unique_id=493451039]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_settings")
+
+[node name="SeaBackdrop" parent="." unique_id=1259108882 instance=ExtResource("2_backdrop")]
+layout_mode = 1
+
+[node name="OptionsColumn" type="VBoxContainer" parent="." unique_id=1726052441]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.57
+anchor_top = 0.2
+anchor_right = 0.95
+anchor_bottom = 0.8
+offset_left = 19.0
+offset_right = -109.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -19
+alignment = 1
+
+[node name="AudioButton" type="Button" parent="OptionsColumn" unique_id=1068852482]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+text = "音量：开"
+
+[node name="FullscreenButton" type="Button" parent="OptionsColumn" unique_id=551311510]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+text = "全屏：关"
+
+[node name="BackButton" type="Button" parent="OptionsColumn" unique_id=310355336]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+text = "返回主菜单"

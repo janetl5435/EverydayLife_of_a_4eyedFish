@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://02n8ifqbopwm"]
+
+[ext_resource type="Script" uid="uid://d005qe13im52a" path="res://scripts/ui/components/achievement_list_item.gd" id="1_item"]
+[ext_resource type="Theme" uid="uid://8likwnth6oeh" path="res://themes/game_ui_theme.tres" id="2_theme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_row"]
+bg_color = Color(0.94, 0.98, 0.94, 0.82)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.08, 0.23, 0.24, 0.78)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="AchievementListItem" type="PanelContainer" unique_id=929833117]
+custom_minimum_size = Vector2(250, 200)
+size_flags_horizontal = 3
+mouse_filter = 1
+theme = ExtResource("2_theme")
+theme_override_styles/panel = SubResource("StyleBoxFlat_row")
+script = ExtResource("1_item")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=735666590]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="Content" type="HBoxContainer" parent="Margin" unique_id=1903288052]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="IconRect" type="TextureRect" parent="Margin/Content" unique_id=1771396188]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Margin/Content" unique_id=1917876453]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="Margin/Content/Text" unique_id=1467113230]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Margin/Content/Text/Header" unique_id=742212907]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "成就名称"
+autowrap_mode = 2
+
+[node name="StatusLabel" type="Label" parent="Margin/Content/Text/Header" unique_id=1822187610]
+unique_name_in_owner = true
+layout_mode = 2
+text = "未解锁"
+vertical_alignment = 1
+
+[node name="ConditionLabel" type="Label" parent="Margin/Content/Text" unique_id=1734832134]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 17
+text = "获得条件"
+vertical_alignment = 1
+autowrap_mode = 2

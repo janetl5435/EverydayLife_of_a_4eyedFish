@@ -1,0 +1,325 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/tutorial_overlay.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/fish/fish_spritesheet.png" id="2_fish"]
+[ext_resource type="Texture2D" path="res://assets/sprites/prey/flies_0000.png" id="3_insect"]
+[ext_resource type="Texture2D" path="res://assets/sprites/prey_shrimp.png" id="4_shrimp"]
+[ext_resource type="Texture2D" path="res://assets/ui/uis/eye_warning.png" id="5_warning"]
+[ext_resource type="Texture2D" path="res://assets/ui/uis/exp_button.png" id="6_energy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fish"]
+atlas = ExtResource("2_fish")
+region = Rect2(0, 0, 257, 181)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shrimp"]
+atlas = ExtResource("4_shrimp")
+region = Rect2(0, 0, 257, 257)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.91, 0.96, 0.95, 0.97)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.05, 0.31, 0.38, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0.01, 0.09, 0.12, 0.55)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.76, 0.9, 0.91, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.08, 0.39, 0.45, 0.7)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[node name="TutorialOverlay" type="Control"]
+process_mode = 3
+visible = false
+z_index = 100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_script")
+
+[node name="Dimmer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.01, 0.08, 0.1, 0.76)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 42.0
+offset_top = 32.0
+offset_right = -42.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(1120, 640)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 20
+
+[node name="Content" type="VBoxContainer" parent="Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="HBoxContainer" parent="Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/Content/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.04, 0.27, 0.33, 1)
+theme_override_font_sizes/font_size = 36
+text = "四眼鱼生存指南"
+vertical_alignment = 1
+
+[node name="CloseButton" type="Button" parent="Center/Panel/Margin/Content/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 58)
+layout_mode = 2
+text = "返回"
+
+[node name="Cards" type="HBoxContainer" parent="Center/Panel/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="MovementCard" type="PanelContainer" parent="Center/Panel/Margin/Content/Cards"]
+custom_minimum_size = Vector2(0, 485)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel/Margin/Content/Cards/MovementCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="Content" type="VBoxContainer" parent="Center/Panel/Margin/Content/Cards/MovementCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CardTitle" type="Label" parent="Center/Panel/Margin/Content/Cards/MovementCard/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.04, 0.28, 0.34, 1)
+theme_override_font_sizes/font_size = 27
+text = "① 游动与润眼"
+horizontal_alignment = 1
+
+[node name="Illustration" type="Control" parent="Center/Panel/Margin/Content/Cards/MovementCard/Margin/Content"]
+custom_minimum_size = Vector2(0, 155)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Keys" type="Label" parent="Center/Panel/Margin/Content/Cards/MovementCard/Margin/Content/Illustration"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 28.0
+offset_right = 92.0
+offset_bottom = 132.0
+theme_override_colors/font_color = Color(0.04, 0.31, 0.38, 1)
+theme_override_font_sizes/font_size = 28
+text = "W  ↑\n\nS  ↓"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fish" type="TextureRect" parent="Center/Panel/Margin/Content/Cards/MovementCard/Margin/Content/Illustration"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 26.0
+offset_right = 300.0
+offset_bottom = 140.0
+texture = SubResource("AtlasTexture_fish")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Body" type="Label" parent="Center/Panel/Margin/Content/Cards/MovementCard/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.05, 0.22, 0.27, 1)
+theme_override_font_sizes/font_size = 20
+text = "W / S：向上、向下游动\n\n水面按 S 润眼；到下一层后再按 S 潜入水下。\n\n回到水下最上层后，再按 W 返回水面。"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="FoodCard" type="PanelContainer" parent="Center/Panel/Margin/Content/Cards"]
+custom_minimum_size = Vector2(0, 485)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel/Margin/Content/Cards/FoodCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="Content" type="VBoxContainer" parent="Center/Panel/Margin/Content/Cards/FoodCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CardTitle" type="Label" parent="Center/Panel/Margin/Content/Cards/FoodCard/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.04, 0.28, 0.34, 1)
+theme_override_font_sizes/font_size = 27
+text = "② 进食与跳跃"
+horizontal_alignment = 1
+
+[node name="Illustration" type="Control" parent="Center/Panel/Margin/Content/Cards/FoodCard/Margin/Content"]
+custom_minimum_size = Vector2(0, 155)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Fish" type="TextureRect" parent="Center/Panel/Margin/Content/Cards/FoodCard/Margin/Content/Illustration"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 55.0
+offset_right = 160.0
+offset_bottom = 140.0
+texture = SubResource("AtlasTexture_fish")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="JumpArrow" type="Label" parent="Center/Panel/Margin/Content/Cards/FoodCard/Margin/Content/Illustration"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 23.0
+offset_right = 220.0
+offset_bottom = 96.0
+theme_override_colors/font_color = Color(0.94, 0.5, 0.05, 1)
+theme_override_font_sizes/font_size = 48
+text = "↗"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Insect" type="TextureRect" parent="Center/Panel/Margin/Content/Cards/FoodCard/Margin/Content/Illustration"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 8.0
+offset_right = 300.0
+offset_bottom = 88.0
+texture = ExtResource("3_insect")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Shrimp" type="TextureRect" parent="Center/Panel/Margin/Content/Cards/FoodCard/Margin/Content/Illustration"]
+layout_mode = 0
+offset_left = 212.0
+offset_top = 83.0
+offset_right = 306.0
+offset_bottom = 150.0
+texture = SubResource("AtlasTexture_shrimp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Body" type="Label" parent="Center/Panel/Margin/Content/Cards/FoodCard/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.05, 0.22, 0.27, 1)
+theme_override_font_sizes/font_size = 20
+text = "F：张嘴进食\n\n水面可以吃虾；水下可以吃虾、水草和海贝。\n\n捕捉昆虫：按住空格 → 点击右上方 → 松开起跳。"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="SurvivalCard" type="PanelContainer" parent="Center/Panel/Margin/Content/Cards"]
+custom_minimum_size = Vector2(0, 485)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel/Margin/Content/Cards/SurvivalCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="Content" type="VBoxContainer" parent="Center/Panel/Margin/Content/Cards/SurvivalCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CardTitle" type="Label" parent="Center/Panel/Margin/Content/Cards/SurvivalCard/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.04, 0.28, 0.34, 1)
+theme_override_font_sizes/font_size = 27
+text = "③ 躲避与生存"
+horizontal_alignment = 1
+
+[node name="Illustration" type="Control" parent="Center/Panel/Margin/Content/Cards/SurvivalCard/Margin/Content"]
+custom_minimum_size = Vector2(0, 155)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Warning" type="TextureRect" parent="Center/Panel/Margin/Content/Cards/SurvivalCard/Margin/Content/Illustration"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 35.0
+offset_right = 162.0
+offset_bottom = 120.0
+texture = ExtResource("5_warning")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Energy" type="TextureRect" parent="Center/Panel/Margin/Content/Cards/SurvivalCard/Margin/Content/Illustration"]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 35.0
+offset_right = 318.0
+offset_bottom = 120.0
+texture = ExtResource("6_energy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Body" type="Label" parent="Center/Panel/Margin/Content/Cards/SurvivalCard/Margin/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.05, 0.22, 0.27, 1)
+theme_override_font_sizes/font_size = 20
+text = "出现警告时，马上换到其他水层。\n\nShift 可以加速，但会更快消耗能量。\n\n保持眼睛湿润、能量充足，活着游到终点！"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Footer" type="Label" parent="Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13, 0.37, 0.41, 1)
+theme_override_font_sizes/font_size = 18
+text = "Esc：暂停游戏　　教程界面中按 Esc 可返回主菜单"
+horizontal_alignment = 1

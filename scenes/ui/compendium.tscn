@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://de6b2u4xton3f"]
+
+[ext_resource type="Script" uid="uid://bspanh4b7x8hb" path="res://scripts/ui/compendium.gd" id="1_compendium"]
+[ext_resource type="PackedScene" path="res://scenes/ui/components/sea_backdrop.tscn" id="2_backdrop"]
+[ext_resource type="Theme" uid="uid://8likwnth6oeh" path="res://themes/game_ui_theme.tres" id="3_theme"]
+
+[node name="Compendium" type="Control" unique_id=1375101032]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_compendium")
+
+[node name="SeaBackdrop" parent="." unique_id=536317655 instance=ExtResource("2_backdrop")]
+layout_mode = 1
+
+[node name="RightColumn" type="VBoxContainer" parent="." unique_id=1022822812]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.57
+anchor_top = 0.12
+anchor_right = 0.95
+anchor_bottom = 0.88
+offset_left = -63.599976
+offset_top = 76.6
+offset_right = -30.0
+offset_bottom = 4.5999756
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Scroll" type="ScrollContainer" parent="RightColumn" unique_id=373448872]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="AchievementList" type="GridContainer" parent="RightColumn/Scroll" unique_id=1990155890]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(496, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="BackButton" type="Button" parent="RightColumn" unique_id=1755097499]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(358, 150)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "返回主菜单"

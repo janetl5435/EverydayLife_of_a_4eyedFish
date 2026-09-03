@@ -1,0 +1,52 @@
+[gd_resource type="Theme" format=3 uid="uid://8likwnth6oeh"]
+
+[ext_resource type="Texture2D" uid="uid://642oqfxyqxlr" path="res://assets/ui/uis/button_idle.png" id="1_button_idle"]
+[ext_resource type="Texture2D" uid="uid://b2n6ed57fj5ur" path="res://assets/ui/uis/button_selected.png" id="2_button_selected"]
+[ext_resource type="FontFile" uid="uid://7cwffea0mq4i" path="res://assets/fonts/huiwenmingchaoti.otf" id="3_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_disabled"]
+bg_color = Color(0.22, 0.25, 0.27, 0.5)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.08, 0.17, 0.19, 0.55)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_highlight"]
+texture = ExtResource("2_button_selected")
+texture_margin_left = 48.0
+texture_margin_top = 34.0
+texture_margin_right = 48.0
+texture_margin_bottom = 34.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_normal"]
+texture = ExtResource("1_button_idle")
+texture_margin_left = 48.0
+texture_margin_top = 34.0
+texture_margin_right = 48.0
+texture_margin_bottom = 34.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_empty"]
+
+[resource]
+default_font = ExtResource("3_font")
+default_font_size = 28
+Button/colors/font_color = Color(1, 0.96, 0.84, 1)
+Button/colors/font_disabled_color = Color(0.75, 0.76, 0.74, 0.72)
+Button/colors/font_focus_color = Color(0.08, 0.17, 0.19, 1)
+Button/colors/font_hover_color = Color(0.08, 0.17, 0.19, 1)
+Button/colors/font_hover_pressed_color = Color(0.08, 0.17, 0.19, 1)
+Button/colors/font_pressed_color = Color(0.08, 0.17, 0.19, 1)
+Button/font_sizes/font_size = 30
+Button/styles/disabled = SubResource("StyleBoxFlat_disabled")
+Button/styles/focus = SubResource("StyleBoxTexture_highlight")
+Button/styles/hover = SubResource("StyleBoxTexture_highlight")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_highlight")
+Button/styles/normal = SubResource("StyleBoxTexture_normal")
+Button/styles/pressed = SubResource("StyleBoxTexture_highlight")
+Label/colors/font_color = Color(0.06, 0.16, 0.18, 1)
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_empty")

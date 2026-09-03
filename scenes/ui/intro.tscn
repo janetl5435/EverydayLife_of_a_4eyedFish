@@ -1,0 +1,28 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/intro.gd" id="1_intro"]
+[ext_resource type="PackedScene" path="res://scenes/ui/components/full_screen_sequence.tscn" id="2_sequence"]
+[ext_resource type="Texture2D" path="res://assets/ui/full_screen_anim/intro_new/intro_0000.png" id="3_frame_1"]
+[ext_resource type="Texture2D" path="res://assets/ui/full_screen_anim/intro_new/intro_0001.png" id="4_frame_2"]
+[ext_resource type="Texture2D" path="res://assets/ui/full_screen_anim/intro_new/intro_0002.png" id="5_frame_3"]
+[ext_resource type="Texture2D" path="res://assets/ui/full_screen_anim/intro_new/intro_0003.png" id="6_frame_4"]
+[ext_resource type="Texture2D" path="res://assets/ui/full_screen_anim/intro_new/intro_0004.png" id="7_frame_5"]
+[ext_resource type="Texture2D" path="res://assets/ui/full_screen_anim/intro_new/intro_0005.png" id="8_frame_6"]
+[ext_resource type="Texture2D" path="res://assets/ui/full_screen_anim/intro_new/intro_0006.png" id="9_frame_7"]
+[ext_resource type="Texture2D" path="res://assets/ui/full_screen_anim/intro_new/intro_0007.png" id="10_frame_8"]
+
+[node name="Intro" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_intro")
+
+[node name="IntroSequence" parent="." instance=ExtResource("2_sequence")]
+unique_name_in_owner = true
+layout_mode = 1
+frames = Array[Texture2D]([ExtResource("3_frame_1"), ExtResource("4_frame_2"), ExtResource("5_frame_3"), ExtResource("6_frame_4"), ExtResource("7_frame_5"), ExtResource("8_frame_6"), ExtResource("9_frame_7"), ExtResource("10_frame_8")])
+frame_duration = 0.28
