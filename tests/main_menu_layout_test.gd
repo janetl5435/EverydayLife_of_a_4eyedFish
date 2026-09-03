@@ -118,9 +118,12 @@ func _run() -> void:
 	_expect_true(close_button.has_focus(), "Opening the tutorial must focus its return button.")
 	close_button.pressed.emit()
 	_expect_true(not tutorial_overlay.visible, "The return button must close the tutorial overlay.")
-	_expect_true(tutorial_button.has_focus(), "Closing the tutorial must restore focus to 玩法说明.")
 	for button: Button in buttons:
 		_expect_true(not button.disabled, "Primary menu buttons must be re-enabled after closing the tutorial.")
+		_expect_true(
+			not button.has_focus(),
+			"Closing the tutorial must leave primary menu buttons without keyboard focus."
+		)
 	menu.queue_free()
 	await get_tree().process_frame
 	_finish()

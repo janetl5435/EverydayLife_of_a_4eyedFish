@@ -76,7 +76,9 @@ func _on_tutorial_pressed() -> void:
 
 func _on_tutorial_closed() -> void:
 	_set_primary_buttons_disabled(false)
-	tutorial_button.grab_focus()
+	var focus_owner: Control = get_viewport().gui_get_focus_owner()
+	if focus_owner != null:
+		focus_owner.release_focus()
 
 
 func _set_primary_buttons_disabled(disabled: bool) -> void:
