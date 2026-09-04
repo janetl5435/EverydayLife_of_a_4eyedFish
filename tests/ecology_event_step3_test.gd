@@ -30,7 +30,8 @@ func _run() -> void:
 	_check_food_independence(foods)
 	await _advance_to_next_event(gameplay, ecology, ecology.event_4_length)
 	_expect_int_array(ecology.get_started_event_ids(), [4, 1], "Event 1 must follow the fixed opening event.")
-	await _check_bird_rules(ecology, player, camera)
+	var event_1_bird: PatrolThreat = await _check_bird_rules(ecology, player, camera)
+	await _check_surface_escape_spawn_guard(ecology, player, event_1_bird)
 	await _advance_to_next_event(gameplay, ecology, ecology.event_1_length)
 	_expect_int_array(ecology.get_started_event_ids(), [4, 1, 2], "Event 2 must follow event 1.")
 	await _advance_to_next_event(gameplay, ecology, ecology.event_2_length)
@@ -48,6 +49,7 @@ func _run() -> void:
 	)
 	gameplay.queue_free()
 	await get_tree().process_frame
+	await _check_surface_view_predator_detection()
 	_finish()
 
 
@@ -59,6 +61,10 @@ func _check_event_data(ecology: EcologyEventDirector) -> void:
 	for event_id: int in range(1, 5):
 		var length: float = ecology.get_event_length(event_id)
 		_expect_true(length >= 1800.0 and length <= 2200.0, "Every ecology event length must stay in the 1800-2200 px tuning range.")
+		_expect_true(
+			ecology.is_event_surface_threat_spacing_valid(event_id),
+			"Birds and region-6 predator fish must be activated in separate batches."
+		)
 	_expect_equal(ecology.get_event_total_threat_count(1), 3, "Event 1 must contain one bird and two predator fish.")
 	_expect_equal(ecology.get_event_bird_count(1), 1, "Event 1 must contain one bird.")
 	_expect_equal(ecology.get_event_food_type_count(1, &"insect"), 2, "Event 1 must contain two insects.")
@@ -100,7 +106,7 @@ func _check_bird_rules(
 	ecology: EcologyEventDirector,
 	player: PlayerFish,
 	camera: Camera2D
-) -> void:
+) -> PatrolThreat:
 	var bird: PatrolThreat
 	for threat: PatrolThreat in ecology.get_active_threats():
 		if threat.get_animal_type() == ThreatEntry.AnimalType.BIRD:
@@ -108,7 +114,7 @@ func _check_bird_rules(
 			break
 	_expect_true(bird != null, "Event 1 must activate its bird in the first batch.")
 	if bird == null:
-		return
+		return null
 	camera.global_position.x = player.global_position.x
 	_expect_float(bird.get_forward_vision_distance(), 300.0, "The event bird must receive the configured 300 px view length.")
 	bird.global_position.x = player.global_position.x + 250.0
@@ -151,6 +157,95 @@ func _check_bird_rules(
 		"Waiting underwater without a new bird lock must not count as an evasion."
 	)
 	ecology.set_player_view_profile(RegionLayout.ViewProfile.FORAGE_SURFACE)
+	return bird
+
+
+func _check_surface_escape_spawn_guard(
+	ecology: EcologyEventDirector,
+	player: PlayerFish,
+	bird: PatrolThreat
+) -> void:
+	if bird == null:
+		return
+	player.global_position.x += 610.0
+	bird.global_position.x = player.global_position.x + 250.0
+	await get_tree().physics_frame
+	var found_surface_fish: bool = false
+	for threat: PatrolThreat in ecology.get_active_threats():
+		if (
+			threat.get_animal_type() == ThreatEntry.AnimalType.PREDATOR_FISH
+			and threat.get_danger_region() == 6
+		):
+			found_surface_fish = true
+	_expect_true(
+		not found_surface_fish,
+		"A region-6 predator must wait while a visible bird covers the player's horizontal position."
+	)
+	bird.global_position.x = player.global_position.x - 100.0
+	await get_tree().physics_frame
+	for threat: PatrolThreat in ecology.get_active_threats():
+		if (
+			threat.get_animal_type() == ThreatEntry.AnimalType.PREDATOR_FISH
+			and threat.get_danger_region() == 6
+		):
+			found_surface_fish = true
+	_expect_true(
+		found_surface_fish,
+		"The delayed region-6 predator must spawn after the bird no longer covers the player."
+	)
+
+
+func _check_surface_view_predator_detection() -> void:
+	var gameplay: GameplayRoot = await _create_gameplay()
+	if gameplay == null:
+		return
+	var ecology: EcologyEventDirector = gameplay.get_node("ModeHost/EcologyEventDirector") as EcologyEventDirector
+	var pool: ThreatPool = gameplay.get_node("World/ActorRoot/Animals/ThreatPool") as ThreatPool
+	var player: PlayerFish = gameplay.get_node("World/ActorRoot/PlayerFish") as PlayerFish
+	var camera: Camera2D = gameplay.get_node("World/CameraRig/Camera2D") as Camera2D
+	var regions: RegionController = gameplay.get_node("Systems/RegionController") as RegionController
+	ecology.set_automatic_spawning_enabled(false)
+	await _clear_active_entities(gameplay)
+	var entry: ThreatEntry = ThreatEntry.new()
+	entry.animal_type = ThreatEntry.AnimalType.PREDATOR_FISH
+	entry.world_region = 6
+	entry.direction = -1
+	entry.speed = 1.0
+	entry.active_time = 10.0
+	var predator: PatrolThreat = pool.acquire(ThreatEntry.AnimalType.PREDATOR_FISH)
+	predator.activate(
+		entry,
+		Vector2(player.global_position.x + 650.0, gameplay.region_layout.get_region_center_y(6)),
+		camera
+	)
+	predator.set_forward_vision_distance(INF)
+	await get_tree().physics_frame
+	_expect_true(
+		not ecology.is_alert_active(),
+		"A region-6 predator must not attack a surface-view player who remains in region 5."
+	)
+	await _press_region_action(&"move_down")
+	_expect_equal(regions.get_current_region(), 6, "The surface-view predator test must enter region 6.")
+	_expect_true(
+		ecology.is_alert_active(),
+		"A region-6 predator must alert against a same-layer player even in the surface view."
+	)
+	_expect_true(
+		predator.get_visual_state() == PatrolThreat.VisualState.ALERT,
+		"The surface-view predator must keep playing its alert animation while tracking."
+	)
+	await get_tree().create_timer(0.45).timeout
+	_expect_true(
+		not ecology.is_capture_active(),
+		"Less than one continuous second of surface-view predator exposure must not capture the player."
+	)
+	await get_tree().create_timer(0.65).timeout
+	_expect_true(
+		ecology.is_capture_active(),
+		"One continuous second in a same-layer predator view must capture the surface-view player."
+	)
+	gameplay.queue_free()
+	await get_tree().process_frame
 
 
 func _advance_to_next_event(
@@ -178,6 +273,13 @@ func _clear_active_entities(gameplay: GameplayRoot) -> void:
 		if is_instance_valid(food):
 			food.stop_and_free()
 	await get_tree().process_frame
+
+
+func _press_region_action(action: StringName) -> void:
+	Input.action_press(action)
+	await get_tree().physics_frame
+	Input.action_release(action)
+	await get_tree().create_timer(0.15).timeout
 
 
 func _check_visible_caps(ecology: EcologyEventDirector) -> void:

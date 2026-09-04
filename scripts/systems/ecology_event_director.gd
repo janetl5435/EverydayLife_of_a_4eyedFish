@@ -114,6 +114,14 @@ func configure(
 		push_error("EcologyEventDirector is missing required unified-journey dependencies.")
 		_enabled = false
 		return false
+	for event_id: int in range(1, 5):
+		if not is_event_surface_threat_spacing_valid(event_id):
+			push_error(
+				"Ecology event %d places a bird and the surface escape-lane predator in the same batch."
+				% event_id
+			)
+			_enabled = false
+			return false
 	_food_service.set_automatic_spawning_enabled(false)
 	_next_event_x = _journey_start_x + first_event_distance
 	set_physics_process(true)
@@ -211,6 +219,14 @@ func get_event_bird_count(event_id: int) -> int:
 	return total
 
 
+func is_event_surface_threat_spacing_valid(event_id: int) -> bool:
+	var event: EcologyEventDefinition = _build_event(event_id)
+	for batch: EcologyEventDefinition.Batch in event.batches:
+		if _batch_contains_bird(batch) and _batch_contains_surface_escape_fish(batch):
+			return false
+	return true
+
+
 func _physics_process(delta: float) -> void:
 	if not _enabled or _player == null or _capture_active:
 		return
@@ -269,7 +285,48 @@ func _has_capacity_for_batch(batch: EcologyEventDefinition.Batch) -> bool:
 	return (
 		get_active_threat_count() + batch.threats.size() <= maximum_visible_threats
 		and get_active_food_count() + batch.foods.size() <= maximum_visible_foods
+		and _preserves_surface_escape_corridor(batch)
 	)
+
+
+func _preserves_surface_escape_corridor(batch: EcologyEventDefinition.Batch) -> bool:
+	var adds_bird: bool = _batch_contains_bird(batch)
+	var adds_surface_escape_fish: bool = _batch_contains_surface_escape_fish(batch)
+	if adds_bird and adds_surface_escape_fish:
+		return false
+	if not adds_bird and not adds_surface_escape_fish:
+		return true
+	for threat: PatrolThreat in _threat_pool.get_active_threats():
+		if not threat.is_inside_camera_view():
+			continue
+		if not threat.is_player_in_forward_view(_player.global_position.x):
+			continue
+		if adds_surface_escape_fish and threat.get_animal_type() == ThreatEntry.AnimalType.BIRD:
+			return false
+		if (
+			adds_bird
+			and threat.get_animal_type() == ThreatEntry.AnimalType.PREDATOR_FISH
+			and threat.get_danger_region() == _layout.forage_surface_swim_max_region
+		):
+			return false
+	return true
+
+
+func _batch_contains_bird(batch: EcologyEventDefinition.Batch) -> bool:
+	for plan: EcologyEventDefinition.ThreatSpawn in batch.threats:
+		if plan.animal_type == ThreatEntry.AnimalType.BIRD:
+			return true
+	return false
+
+
+func _batch_contains_surface_escape_fish(batch: EcologyEventDefinition.Batch) -> bool:
+	for plan: EcologyEventDefinition.ThreatSpawn in batch.threats:
+		if (
+			plan.animal_type == ThreatEntry.AnimalType.PREDATOR_FISH
+			and plan.world_region == _layout.forage_surface_swim_max_region
+		):
+			return true
+	return false
 
 
 func _activate_batch(batch: EcologyEventDefinition.Batch, batch_index: int) -> void:
@@ -353,7 +410,7 @@ func _update_threat_awareness(delta: float) -> void:
 func _can_threat_target_current_view(threat: PatrolThreat) -> bool:
 	if threat.get_animal_type() == ThreatEntry.AnimalType.BIRD:
 		return _current_profile == RegionLayout.ViewProfile.FORAGE_SURFACE
-	return _current_profile == RegionLayout.ViewProfile.FORAGE_DEEP
+	return true
 
 
 func _did_player_actively_escape_bird(bird: PatrolThreat) -> bool:
@@ -467,19 +524,20 @@ func _build_event_1() -> EcologyEventDefinition:
 	var event: EcologyEventDefinition = EcologyEventDefinition.new(1, event_1_length)
 	var first: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(0.0)
 	first.threats.append(_threat(ThreatEntry.AnimalType.BIRD, 3, -1, 230.0))
-	first.threats.append(_threat(ThreatEntry.AnimalType.PREDATOR_FISH, 6, -1, 250.0, -80.0))
 	first.foods.append(_food(&"insect", 4, 120.0))
 	first.foods.append(_food(&"insect", 4, 210.0))
 	first.foods.append(_food(&"algae", 8, 20.0))
-	var second: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(650.0)
-	second.threats.append(_threat(ThreatEntry.AnimalType.PREDATOR_FISH, 7, 1, 260.0))
-	second.foods.append(_food(&"algae", 8, -80.0))
-	second.foods.append(_food(&"shellfish", 8, 60.0))
-	second.foods.append(_food(&"shrimp", 6, 170.0))
-	var third: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(1250.0)
-	third.foods.append(_food(&"shellfish", 8, -60.0))
-	third.foods.append(_food(&"shrimp", 8, 120.0))
-	event.batches.assign([first, second, third])
+	var surface_fish: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(600.0)
+	surface_fish.threats.append(_threat(ThreatEntry.AnimalType.PREDATOR_FISH, 6, -1, 250.0, -80.0))
+	var deep_fish: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(900.0)
+	deep_fish.threats.append(_threat(ThreatEntry.AnimalType.PREDATOR_FISH, 7, 1, 260.0))
+	deep_fish.foods.append(_food(&"algae", 8, -80.0))
+	deep_fish.foods.append(_food(&"shellfish", 8, 60.0))
+	deep_fish.foods.append(_food(&"shrimp", 6, 170.0))
+	var final_foods: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(1250.0)
+	final_foods.foods.append(_food(&"shellfish", 8, -60.0))
+	final_foods.foods.append(_food(&"shrimp", 8, 120.0))
+	event.batches.assign([first, surface_fish, deep_fish, final_foods])
 	return event
 
 
@@ -487,19 +545,20 @@ func _build_event_2() -> EcologyEventDefinition:
 	var event: EcologyEventDefinition = EcologyEventDefinition.new(2, event_2_length)
 	var first: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(0.0)
 	first.threats.append(_threat(ThreatEntry.AnimalType.BIRD, 3, 1, 260.0))
-	first.threats.append(_threat(ThreatEntry.AnimalType.PREDATOR_FISH, 6, -1, 250.0))
 	first.foods.append(_food(&"insect", 4, -40.0))
 	first.foods.append(_food(&"insect", 4, 150.0))
 	first.foods.append(_food(&"shrimp", 7, 60.0))
-	var second: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(700.0)
-	second.threats.append(_threat(ThreatEntry.AnimalType.PREDATOR_FISH, 7, 1, 250.0))
-	second.foods.append(_food(&"shrimp", 6, -100.0))
-	second.foods.append(_food(&"algae", 8, 40.0))
-	second.foods.append(_food(&"shrimp", 7, 180.0))
-	var third: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(1350.0)
-	third.foods.append(_food(&"shellfish", 8, -70.0))
-	third.foods.append(_food(&"shrimp", 6, 120.0))
-	event.batches.assign([first, second, third])
+	var deep_fish: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(700.0)
+	deep_fish.threats.append(_threat(ThreatEntry.AnimalType.PREDATOR_FISH, 7, 1, 250.0))
+	deep_fish.foods.append(_food(&"shrimp", 6, -100.0))
+	deep_fish.foods.append(_food(&"algae", 8, 40.0))
+	deep_fish.foods.append(_food(&"shrimp", 7, 180.0))
+	var surface_fish: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(900.0)
+	surface_fish.threats.append(_threat(ThreatEntry.AnimalType.PREDATOR_FISH, 6, -1, 250.0))
+	var final_foods: EcologyEventDefinition.Batch = EcologyEventDefinition.Batch.new(1350.0)
+	final_foods.foods.append(_food(&"shellfish", 8, -70.0))
+	final_foods.foods.append(_food(&"shrimp", 6, 120.0))
+	event.batches.assign([first, deep_fish, surface_fish, final_foods])
 	return event
 
 
